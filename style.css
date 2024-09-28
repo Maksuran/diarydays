@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap');
+*{
+font-family: "Tenor Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+body{
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 600px;
+    background-color: #f9f9f9;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+}
+.container button{
+    background-color: #f4f4f4;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+.container button:hover{
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+select{
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+textarea{
+    padding: 10px;
+    resize: vertical;
+    border: none;
+    outline: none;
+    line-height: 1.5;
+    border-radius: 10px;
+}
+.actions{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    gap: 10px;
+}
+.actions button{
+background-color: #f4f4f4;
+border: none;
+outline: none;
+cursor: pointer;
+}
+.entryText{
+    line-height: 1.5;
+}
+.timestamp{
+    color: slategray;
+    font-size: 14px;
+}
+ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+justify-content: center; 
+gap: 10px;
+}
+li{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center; 
+    padding: 10px;
+    background-color: white;
+    line-height: 1.5;
+    gap: 10px;
+    border-radius: 10px;
+}
+li button{
+    background-color: #f4f4f4;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+}
+.text_li{
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+}
+small{
+    color: slategray;
+}

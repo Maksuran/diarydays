@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Личный Дневник</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Личный Дневник</h1>
+    <div class="container">
+        <textarea id="entryText" rows="5" placeholder="Введите вашу запись здесь..." spellcheck="true" autofocus required></textarea>
+        <select id="emotion">
+            <option value="😀">😀 Веселый</option>
+            <option value="😢">😢 Грустный</option>
+            <option value="😡">😡 Злой</option>
+            <option value="😌">😌 Спокойный</option>
+        </select>
+        <button onclick="addEntry()">Добавить запись</button>
+        <button onclick="exportToCSV()">Экспорт в CSV</button>
+    </div>
+    <h2>Ваши записи</h2>
+    <ul id="entriesList"></ul>
+
+    <script>
+        function loadEntries() {
+            const entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+            return entries;
+        }
+
+        function saveEntries(entries) {
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+        }
+
+        function addEntry() {
+            const text = document.getElementById('entryText').value;
+            const emotion = document.getElementById('emotion').value;
+            const date = new Date().toLocaleString();
+            if (text) {
+                const entries = loadEntries();
+                entries.unshift({ text, emotion, date }); // Добавляем запись в начало массива
+                saveEntries(entries);
+                document.getElementById('entryText').value = '';
+                renderEntries();
+            }
+        }
+
+        function deleteEntry(index) {
+            const entries = loadEntries();
+            entries.splice(index, 1);
+            saveEntries(entries);
+            renderEntries();
+        }
+
+        function editEntry(index) {
+            const entries = loadEntries();
+            const newText = prompt('Редактировать запись:', entries[index].text);
+            if (newText !== null) {
+                entries[index].text = newText;
+                saveEntries(entries);
+                renderEntries();
+            }
+        }
+
+        function renderEntries() {
+            const entriesList = document.getElementById('entriesList');
+            entriesList.innerHTML = '';
+            const entries = loadEntries();
+            entries.forEach((entry, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<div class="text_li">${entry.emotion} ${entry.text}</div><small>${entry.date}</small>`;
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Редактировать';
+                editButton.onclick = () => editEntry(index);
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Удалить';
+                deleteButton.onclick = () => deleteEntry(index);
+                li.appendChild(editButton);
+                li.appendChild(deleteButton);
+                entriesList.appendChild(li);
+            });
+        }
+
+        function exportToCSV() {
+            const entries = loadEntries();
+            const csvContent = entries.map(e => `${e.date},${e.text},${e.emotion}`).join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "diary_entries.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.addEventListener('DOMContentLoaded', renderEntries);
+    </script>
+</body>
+</html>
